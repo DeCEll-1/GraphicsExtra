@@ -1,0 +1,12 @@
+{
+	"GE_LoggerEnabled": true,
+	"plugins": {
+		"GE_TestEFS": "DeCell.GraphicsExtra.tests.GE_EFS"
+	}
+}
+
+
+
+
+
+

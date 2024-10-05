@@ -1,0 +1,49 @@
+private void renderCircle(float x, float y, float radius, float alphaMult, int segments, Color color) {//https://discord.com/channels/187635036525166592/310517733458706442/836071830360031312
+    if (fader.isFadingIn()) alphaMult = 1f;
+
+    float startRad = (float) Math.toRadians(0);
+    float endRad = (float) Math.toRadians(360);
+    float spanRad = Misc.normalizeAngle(endRad - startRad);
+    float anglePerSegment = spanRad / segments;
+
+    GL11.glPushMatrix();
+    GL11.glTranslatef(x, y, 0);
+    GL11.glRotatef(0, 0, 0, 1);
+    GL11.glDisable(GL11.GL_TEXTURE_2D);
+
+    GL11.glEnable(GL11.GL_BLEND);
+    GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+
+
+    GL11.glColor4ub((byte)color.getRed(),
+                    (byte)color.getGreen(),
+                    (byte)color.getBlue(),
+                    (byte)((float) color.getAlpha() * alphaMult));
+
+    GL11.glBegin(GL11.GL_TRIANGLE_FAN);
+    GL11.glVertex2f(0, 0);
+    for (float i = 0; i < segments + 1; i++) {
+        boolean last = i == segments;
+        if (last) i = 0;
+        float theta = anglePerSegment * i;
+        float cos = (float) Math.cos(theta);
+        float sin = (float) Math.sin(theta);
+
+        float m1 = 0.75f + 0.65f * noise[(int)i];
+        if (p.noiseMag <= 0) {
+            m1 = 1f;
+        }
+
+        float x1 = cos * radius * m1;
+        float y1 = sin * radius * m1;
+
+        GL11.glVertex2f(x1, y1);
+
+        if (last) break;
+    }
+
+
+    GL11.glEnd();
+    GL11.glPopMatrix();
+
+}

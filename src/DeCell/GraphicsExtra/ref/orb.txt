@@ -1,0 +1,45 @@
+private final Sphere orb = new Sphere();
+private final SpriteAPI tex;
+
+public orbPonderor(ShipAPI ship, SpriteAPI tex) {//https://discord.com/channels/187635036525166592/310517733458706442/1085225672873607179
+
+    this.tex = tex;
+
+    orb.setTextureFlag(true);
+    orb.setDrawStyle(100012);
+    orb.setNormals(100000);
+    orb.setOrientation(100020);
+}
+
+@Override
+public void render(CombatEngineLayers layer, ViewportAPI viewport) {
+
+    GL11.glPushMatrix();
+    //where you want the sphere to render
+    GL11.glTranslatef(ship.getLocation().x, ship.getLocation().y, 0.1f);
+
+    //rotates the sphere
+    //not gonna lie, I've got no idea what's going on with this matrix maths, I'm just pressing buttons until it looks ok
+    GL11.glRotatef(90f, 1, 0, 0);
+    GL11.glRotatef(Global.getCombatEngine().getTotalElapsedTime(true) * 10f, 1, 0, 0);
+
+    //set caps
+    //blend should be disabled instead if you want it to be a solid colour
+    GL11.glEnable(GL11.GL_BLEND);
+    GL11.glEnable(GL11.GL_TEXTURE_2D);
+    GL11.glEnable(GL11.GL_CULL_FACE);
+
+    //bind the texture to be used by the sphere
+    tex.bindTexture();
+
+    //set colour to white so it gets drawn nomrally
+    GL11.glColor3f(255f, 255f, 255);
+    orb.draw(100, 32, 32);
+
+    GL11.glPopMatrix();
+
+    //reset caps for safety, enable blend if you disabled it etc
+    GL11.glDisable(GL11.GL_CULL_FACE);
+    GL11.glDisable(GL11.GL_TEXTURE_2D);
+    GL11.glDisable(GL11.GL_BLEND);
+}

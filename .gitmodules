@@ -1,0 +1,3 @@
+[submodule "gfx/lygia"]
+	path = gfx/lygia
+	url = https://github.com/patriciogonzalezvivo/lygia.git

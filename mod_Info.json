@@ -1,0 +1,17 @@
+{
+  "id": "GraphicsExtra",
+  "name": "GraphicsExtra",
+  "author": "DeCell",
+  "totalConversion": "false",
+  "version": {
+    "major": 0,
+    "minor": 1,
+    "patch": 0
+  },
+  "description": "graphics stuff",
+  "gameVersion": "0.97a-RC11",
+  "modPlugin": "DeCell.GraphicsExtra.Plugins.GE_ModPlugin",
+  "jars": [
+    "jars/GE.jar"
+  ]
+}
