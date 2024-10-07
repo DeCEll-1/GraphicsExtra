@@ -8,6 +8,6 @@ uniform mat4 viewMultMatrix;
 out vec2 texCoord;
 
 void main() {
-    gl_Position = modelMatrix * viewMultMatrix * vec4(aPos, 1., 1.);
     texCoord = aTexPos;
+    gl_Position = modelMatrix * viewMultMatrix * vec4(aPos, 1., 1.);
 }

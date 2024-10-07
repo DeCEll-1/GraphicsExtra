@@ -9,6 +9,7 @@ import cmu.gui.CMUKitUI;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.*;
 import com.fs.starfarer.api.graphics.SpriteAPI;
+import com.fs.starfarer.coreui.V;
 import org.json.JSONException;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
@@ -75,6 +76,7 @@ public class MGLTests extends BaseCombatLayeredRenderingPlugin {
     public void render(CombatEngineLayers layer, ViewportAPI viewport) {
 
         ShipAPI ship = Global.getCombatEngine().getPlayerShip();
+        SpriteAPI texture = ship.getSpriteAPI();
         Vector2f center = null;
         try {
             center = Helper.getShipCenter(ship);
@@ -91,11 +93,15 @@ public class MGLTests extends BaseCombatLayeredRenderingPlugin {
         //region transformations and such
         manager.translate(RenderMisc.worldVectorToScreenVector(center, viewport));
 
+        manager.rotate(new Vector4f(0, 0, 1, ship.getFacing() - 90f));
         //endregion
 
         manager.getShader().bind();
 
-        manager.getShader().SetTexture("tex", ship.getSpriteAPI(), ship.getSpriteAPI().getTextureId());
+        manager.getShader()
+                .SetTexture("tex", ship.getSpriteAPI(), ship.getSpriteAPI().getTextureId())
+                .SetVector2f("textureShape", new Vector2f(texture.getWidth(), texture.getHeight()))
+                .SetVector2f("nextPOTShape", new Vector2f(128, 128));
 
         manager.getShader().unbind();
 

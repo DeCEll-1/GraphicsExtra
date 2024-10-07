@@ -9,6 +9,7 @@ import de.unkrig.commons.nullanalysis.Nullable;
 import org.lwjgl.util.vector.*;
 
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL14.GL_MIRRORED_REPEAT;
 
 import org.lwjgl.opengl.Display;
 
@@ -108,6 +109,7 @@ public class MGLManager {
         //endregion
 
         //region uniform settings
+        shader.SetVector2f("screenShape" , new Vector2f(width, height));
         shader.SetFloat("t", Statics.t);
         shader.SetMatrix4f("modelMatrix", modelMatrix);
         shader.SetMatrix4f("viewMultMatrix", shaderViewMultMatrix);
