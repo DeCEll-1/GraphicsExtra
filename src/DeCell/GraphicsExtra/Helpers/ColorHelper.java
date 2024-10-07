@@ -1,6 +1,6 @@
 package DeCell.GraphicsExtra.Helpers;
 
-import DeCell.GraphicsExtra.GE_Statics;
+import DeCell.GraphicsExtra.Statics;
 import java.awt.*;
 
 public class ColorHelper {
@@ -34,12 +34,12 @@ public class ColorHelper {
 
     public static Color randomColor(boolean isAlpha) {
         if (isAlpha)
-            return new Color(GE_Statics.random.nextInt(255), GE_Statics.random.nextInt(255), GE_Statics.random.nextInt(255), GE_Statics.random.nextInt(255));
-        return new Color(GE_Statics.random.nextInt(255), GE_Statics.random.nextInt(255), GE_Statics.random.nextInt(255));
+            return new Color(Statics.random.nextInt(255), Statics.random.nextInt(255), Statics.random.nextInt(255), Statics.random.nextInt(255));
+        return new Color(Statics.random.nextInt(255), Statics.random.nextInt(255), Statics.random.nextInt(255));
     }
 
     public static Color randomiseAlpha(Color color) {
-        return new Color(color.getRed(), color.getGreen(), color.getBlue(), GE_Statics.random.nextInt(255));
+        return new Color(color.getRed(), color.getGreen(), color.getBlue(), Statics.random.nextInt(255));
     }
 
     public static Color setAlpha(Color color, short alpha) {

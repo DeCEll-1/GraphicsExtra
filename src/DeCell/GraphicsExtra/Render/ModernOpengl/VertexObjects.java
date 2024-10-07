@@ -38,7 +38,7 @@ public class VertexObjects {
 
         vertexBufferId = glGenBuffers();
         glBindBuffer(GL_ARRAY_BUFFER, vertexBufferId);
-        FloatBuffer vertexBuffer = BufferUtils.createFloatBuffer(vertices.length);
+        FloatBuffer vertexBuffer = BufferUtils.createFloatBuffer(vertices.length );
         vertexBuffer.put(vertices).flip();
         glBufferData(GL_ARRAY_BUFFER, vertexBuffer, GL_STATIC_DRAW);
         glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
@@ -54,6 +54,7 @@ public class VertexObjects {
         glBindVertexArray(vertexArrayID); // bind the array so were working on it
 
         float[] colorsArray = ColorsToArray(colors);
+
         colorBufferId = glGenBuffers();
         glBindBuffer(GL_ARRAY_BUFFER, colorBufferId);
         FloatBuffer colorBuffer = BufferUtils.createFloatBuffer(colorsArray.length);

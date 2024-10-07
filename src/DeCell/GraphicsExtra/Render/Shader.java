@@ -1,4 +1,4 @@
-package DeCell.GraphicsExtra.Render.ModernOpengl;
+package DeCell.GraphicsExtra.Render;
 
 import DeCell.GraphicsExtra.Helpers.Logger;
 import com.fs.starfarer.api.Global;
@@ -33,6 +33,14 @@ public class Shader {//https://youtu.be/q_dS3JuoeDw
     public Shader loadVertexShader(String vertexShaderFilePath) {
         try {
             String vert = Global.getSettings().loadText(vertexShaderFilePath);
+            vert = ShaderInclude(vert, vertexShaderFilePath);
+
+            boolean doesContainInclude = false;
+            if (vert.contains("#include")) {
+                doesContainInclude = true;
+                Logger.log(Shader.class, "-/-/-/ COULD NOT LOAD SHADER PROPERLY /-/-/-\nSHADER: \n" + vert + "\nSHADER PATH: \n" + vertexShaderFilePath);
+            }
+
             createVertexShader(vert);
         } catch (Exception ignore) {
         } finally {

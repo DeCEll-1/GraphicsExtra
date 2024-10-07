@@ -10,7 +10,7 @@
   },
   "description": "graphics stuff",
   "gameVersion": "0.97a-RC11",
-  "modPlugin": "DeCell.GraphicsExtra.Plugins.GE_ModPlugin",
+  "modPlugin": "DeCell.GraphicsExtra.Plugins.ModPlugin",
   "jars": [
     "jars/GE.jar"
   ]

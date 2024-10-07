@@ -20,8 +20,8 @@ import java.util.EnumSet;
 import static org.lwjgl.opengl.GL11.glPopMatrix;
 import static org.lwjgl.opengl.GL11.glPushMatrix;
 
-public class GE_MGLTests extends BaseCombatLayeredRenderingPlugin {
-    private CombatEngineLayers CURRENT_LAYER = CombatEngineLayers.ABOVE_PLANETS;
+public class MGLTests extends BaseCombatLayeredRenderingPlugin {
+    private CombatEngineLayers CURRENT_LAYER = CombatEngineLayers.JUST_BELOW_WIDGETS;
     private boolean doOnce = true;
     private MGLManager manager = new MGLManager();
 
@@ -43,10 +43,10 @@ public class GE_MGLTests extends BaseCombatLayeredRenderingPlugin {
         manager.getVertexObjects().init(
                 new ArrayList<Vector3f>(
                         Arrays.asList(
-                                new Vector3f(-100f, +100f, 0f),
-                                new Vector3f(+100f, +100f, 0f),
-                                new Vector3f(-100f, -100f, 0f),
-                                new Vector3f(+100f, -100f, 0f)
+                                new Vector3f(-100f, +100f, 1f),
+                                new Vector3f(+100f, +100f, 1f),
+                                new Vector3f(-100f, -100f, 1f),
+                                new Vector3f(+100f, -100f, 1f)
                         )
                 )
         ).insertColors(
@@ -79,7 +79,7 @@ public class GE_MGLTests extends BaseCombatLayeredRenderingPlugin {
 
         manager.translate(RenderMisc.worldVectorToScreenVector(ship.getLocation(), viewport));
 
-//        manager.rotate(new Vector4f(0, 0, 1, ship.getFacing() - 90f));
+        manager.rotate(new Vector4f(0, 0, 1, ship.getFacing() - 90f));
 
         manager.render(viewport);
 

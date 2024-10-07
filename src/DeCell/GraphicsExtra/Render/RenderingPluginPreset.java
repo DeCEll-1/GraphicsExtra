@@ -1,4 +1,4 @@
-package DeCell.GraphicsExtra.tests;
+package DeCell.GraphicsExtra.Render;
 
 import cmu.gui.CMUKitUI;
 import com.fs.starfarer.api.combat.BaseCombatLayeredRenderingPlugin;
@@ -10,7 +10,7 @@ import java.util.EnumSet;
 import static org.lwjgl.opengl.GL11.glPopMatrix;
 import static org.lwjgl.opengl.GL11.glPushMatrix;
 
-public class GE_RenderingPreset extends BaseCombatLayeredRenderingPlugin {
+public class RenderingPluginPreset extends BaseCombatLayeredRenderingPlugin {
 
     private CombatEngineLayers CURRENT_LAYER = CombatEngineLayers.ABOVE_PLANETS;
 
@@ -45,6 +45,4 @@ public class GE_RenderingPreset extends BaseCombatLayeredRenderingPlugin {
     public EnumSet<CombatEngineLayers> getActiveLayers() {
         return EnumSet.of(CURRENT_LAYER);
     }
-
-
 }

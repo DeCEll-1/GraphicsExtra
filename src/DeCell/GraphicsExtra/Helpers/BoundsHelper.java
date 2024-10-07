@@ -1,6 +1,6 @@
 package DeCell.GraphicsExtra.Helpers;
 
-import DeCell.GraphicsExtra.GE_Statics;
+import DeCell.GraphicsExtra.Statics;
 import com.fs.starfarer.api.combat.BoundsAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import org.lazywizard.lazylib.MathUtils;
@@ -19,7 +19,7 @@ public class BoundsHelper {
      */
     public static Vector2f GetRandomBoundLocation(ShipAPI ship) {
         try {
-            BoundsAPI.SegmentAPI segment = ship.getExactBounds().getSegments().get(GE_Statics.random.nextInt(ship.getExactBounds().getSegments().size()));
+            BoundsAPI.SegmentAPI segment = ship.getExactBounds().getSegments().get(Statics.random.nextInt(ship.getExactBounds().getSegments().size()));
             Vector2f segmentLocation = MathUtils.getNearestPointOnLine(ship.getLocation(), segment.getP1(), segment.getP2());
             return segmentLocation;
         } catch (Exception ex) {

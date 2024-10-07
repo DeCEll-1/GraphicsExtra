@@ -13,6 +13,8 @@ import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
+import static cmu.shaders.BaseRenderPlugin.getViewMatrix;
+import static cmu.shaders.BaseRenderPlugin.orthogonal;
 import static org.lwjgl.opengl.GL11.*;
 
 import org.lwjgl.opengl.Display;
@@ -56,10 +58,8 @@ public class MGLManager {
     }
 
     public void render(ViewportAPI viewport) {
-        float viewMult = viewport.getViewMult();
         shader.bind();
         matrix = new Matrix4f(); // reset the matrix
-
 
 
         Matrix4f translateMatrix = new Matrix4f();
@@ -68,58 +68,28 @@ public class MGLManager {
         for (Vector2f vector : translate) {
             Matrix4f.translate(new Vector3f(vector.getX(), vector.getY(), 0), translateMatrix, translateMatrix);
         }
-        for (Vector2f vector : scale) {
-            Matrix4f.scale(new Vector3f(vector.getX(), vector.getY(), 1), scaleMatrix, scaleMatrix);
-        }
-        for (Vector4f angle : rotate) {
-            Matrix4f.rotate(angle.getW() * (3.14159265359f / 180f), new Vector3f(angle.getX(), angle.getY(), angle.getZ()), rotationMatrix, rotationMatrix);
-        }
-
-
         translate = new ArrayList<>();
+        for (Vector2f vector : scale) {
+            Matrix4f.scale(new Vector3f(vector.getX(), vector.getY(), 0), scaleMatrix, scaleMatrix);
+        }
         scale = new ArrayList<>();
+        for (Vector4f angle : rotate) {
+            Matrix4f.rotate(angle.getW() * (3.14159265358979323846f / 180f), new Vector3f(angle.getX(), angle.getY(), angle.getZ()), rotationMatrix, rotationMatrix);
+        }
         rotate = new ArrayList<>();
+
 
 
         Matrix4f shaderViewMultMatrix = new Matrix4f();
         float n = 1f / viewport.getViewMult();
         shaderViewMultMatrix.scale(new Vector3f(n, n, 1f));
 
-        float width = Global.getSettings().getScreenWidth();
-        float height = Global.getSettings().getScreenHeight();
-
-        float aspect_ratio = height / width;
-    //
-//        Matrix4f.scale(new Vector3f(1f, aspect_ratio, 1f), shaderViewMultMatrix, shaderViewMultMatrix);
-//
-//        Matrix4f.mul(orthogonal(-1, 1, -aspect_ratio, aspect_ratio), shaderViewMultMatrix, shaderViewMultMatrix);
-    //
-
-    //
-        Matrix4f modelMatrix = new Matrix4f();
 
 
-        Matrix4f.mul(rotationMatrix, modelMatrix, modelMatrix);
-
-        Matrix4f.scale(new Vector3f(1f, aspect_ratio, 1f), modelMatrix, modelMatrix);
-        Matrix4f.mul(orthogonal(-1, 1, -aspect_ratio, aspect_ratio), modelMatrix, modelMatrix);
-
-        Matrix4f.mul(scaleMatrix, modelMatrix, modelMatrix);
-        Matrix4f.mul(translateMatrix, modelMatrix, modelMatrix);
-    //
-
-    //
-//        Matrix4f rotationFixMatrix = new Matrix4f();
-//
-//        Matrix4f.scale(new Vector3f(1f, aspect_ratio, 1f), scaleMatrix, scaleMatrix);
-//
-//        Matrix4f.mul(orthogonal(-1, 1, -aspect_ratio, aspect_ratio), scaleMatrix, scaleMatrix);
-    //
-        shader.SetMatrix4f("modelMatrix", modelMatrix);
+//        shader.SetMatrix4f("modelMatrix", modelMatrix);
         shader.SetMatrix4f("transformationMatrix", translateMatrix);
-        shader.SetMatrix4f("rotationMatrix", rotationMatrix);
         shader.SetMatrix4f("scaleMatrix", scaleMatrix);
-//        shader.SetMatrix4f("rotationFixMatrix", rotationFixMatrix); // https://neevek.net/posts/2017/11/26/opengl-rotating-mapped-texture-in-a-rectangular-viewport.html
+        shader.SetMatrix4f("rotationMatrix", rotationMatrix);
         shader.SetMatrix4f("viewMultMatrix", shaderViewMultMatrix);
 
         vertexObject.bind();
@@ -128,26 +98,19 @@ public class MGLManager {
         shader.unbind();
     }
 
-
-    private Matrix4f orthogonal(float left, float right, float bottom, float top) {
-        Matrix4f matrix = new Matrix4f();
-
-        float zNear = -100f;
-        float zFar = 100f;
-
-        matrix.m00 = 2f / (right - left);
-
-        matrix.m11 = 2f / (top - bottom);
-        matrix.m22 = 2f / (zNear - zFar);
-
-        matrix.m30 = -(right + left) / (right - left);
-        matrix.m31 = -(top + bottom) / (top - bottom);
-        matrix.m32 = -(zFar + zNear) / (zFar - zNear);
-
-        matrix.m33 = 1f;
-
-        return matrix;
+    protected FloatBuffer populateUniformsOnFrame(ViewportAPI viewport) {
+        FloatBuffer projectionBuffer = BufferUtils.createFloatBuffer(16);
+        viewport = Global.getCombatEngine().getViewport();
+        Matrix4f matrix = orthogonal(
+                viewport.getVisibleWidth() / viewport.getViewMult(),
+                viewport.getVisibleHeight() / viewport.getViewMult()
+        );
+        matrix.store(projectionBuffer);
+        projectionBuffer.flip();
+        return projectionBuffer;
     }
+
+
 
     private static Matrix4f createGameOrthoMatrix(ViewportAPI viewport, @Nullable Matrix4f result) { // https://discord.com/channels/187635036525166592/824910699415207937/1272632882279747707
         if (result == null) result = new Matrix4f();
@@ -192,6 +155,51 @@ public class MGLManager {
         result.m31 = location.y;
         result.m32 = location.z;
         return result;
+    }
+
+    /**
+     * ZXY order.
+     *
+     * @param yaw   z's angle
+     * @param pitch x's angle
+     * @param roll  y's angle
+     */
+    public static Quaternion rotationZXY(float yaw, float pitch, float roll) {
+        float pitchHalf = pitch * 0.5f;
+        double pitchR = Math.toRadians(pitchHalf);
+        float sp = (float) Math.sin(pitchR);
+        float cp = (float) Math.cos(sp);
+
+        float sr, cr;
+        if (roll == pitch) {
+            sr = sp;
+            cr = cp;
+        } else {
+            float rollHalf = roll * 0.5f;
+            double rollR = Math.toRadians(rollHalf);
+            sr = (float) Math.sin(rollR);
+            cr = (float) Math.cos(sr);
+        }
+
+        float sy, cy;
+        if (yaw == pitch) {
+            sy = sp;
+            cy = cp;
+        } else if (yaw == roll) {
+            sy = sr;
+            cy = cr;
+        } else {
+            float yawHalf = yaw * 0.5f;
+            double yawR = Math.toRadians(yawHalf);
+            sy = (float) Math.sin(yawR);
+            cy = (float) Math.cos(sy);
+        }
+
+        float w = cp * cr * cy - sp * sr * sy;
+        float x = sp * cr * cy - cp * sr * sy;
+        float y = cp * sr * cy + sp * cr * sy;
+        float z = cp * cr * sy + sp * sr * cy;
+        return new Quaternion(x, y, z, w);
     }
 
 
