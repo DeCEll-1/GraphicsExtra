@@ -76,6 +76,7 @@ public class MGLTests extends BaseCombatLayeredRenderingPlugin {
     public void render(CombatEngineLayers layer, ViewportAPI viewport) {
 
         ShipAPI ship = Global.getCombatEngine().getPlayerShip();
+        ship.getSpriteAPI().setColor(new Color(0,0,0,0));
         SpriteAPI texture = ship.getSpriteAPI();
         Vector2f center = null;
         try {
@@ -101,7 +102,8 @@ public class MGLTests extends BaseCombatLayeredRenderingPlugin {
         manager.getShader()
                 .SetTexture("tex", ship.getSpriteAPI(), ship.getSpriteAPI().getTextureId())
                 .SetVector2f("textureShape", new Vector2f(texture.getWidth(), texture.getHeight()))
-                .SetVector2f("nextPOTShape", new Vector2f(128, 128));
+                .SetVector2f("nextPOTShape", new Vector2f(128, 128))
+                .SetVector2f("level", new Vector2f(32, 32));
 
         manager.getShader().unbind();
 
