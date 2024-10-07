@@ -73,7 +73,7 @@ public class Helper {
 
             Vector2f center = new Vector2f(Float.parseFloat(coords.get(0).toString()), Float.parseFloat(coords.get(1).toString()));
 
-            origins.put(ship.getHullSpec().getShipFilePath(), new Vector2f(ship.getLocation().x - center.x, ship.getLocation().y - center.y));
+            origins.put(ship.getHullSpec().getShipFilePath(), new Vector2f(center.x, center.y));
 
             return getShipOrigin(ship);
         }
@@ -81,7 +81,8 @@ public class Helper {
 
     public static Vector2f getShipCenter(ShipAPI ship) throws JSONException, IOException {
         Vector2f center = Helper.getShipOrigin(ship);
-        center.set(center.x + ship.getSpriteAPI().getWidth() / 2f, center.y + ship.getSpriteAPI().getHeight() / 2f);
+        center.set(center.x - ship.getSpriteAPI().getWidth() / 2f, center.y - ship.getSpriteAPI().getHeight() / 2f);
+        center.set(ship.getLocation().x + center.x, ship.getLocation().y + center.y);
         return center;
     }
 

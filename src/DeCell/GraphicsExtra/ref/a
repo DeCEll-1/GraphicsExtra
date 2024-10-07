@@ -20,8 +20,6 @@ import static org.lwjgl.opengl.ARBVertexArrayObject.glGenVertexArrays;
 
 public class VertexObjects {
     private int vertexArrayID = 0;
-    // DO NOT FORGET TO CHANGE THİS TO THE AMOUNT OF VERTEXES YOU HAVE
-    public int size = 0;
     public VertexObjects init() {
         this.vertexArrayID = glGenVertexArrays();
         glBindVertexArray(vertexArrayID);
@@ -38,7 +36,7 @@ public class VertexObjects {
         FloatBuffer vectorBuffer = BufferUtils.createFloatBuffer(vectorArrays.length); // make float buffer to add our values into
         vectorBuffer.put(vectorArrays).flip(); // flip it cuz idk
         glBufferData(GL_ARRAY_BUFFER, vectorBuffer, GL_STATIC_DRAW); // input the data
-        glVertexAttribPointer(pointer, 2, GL_FLOAT, false, 0, 0); // set the
+        glVertexAttribPointer(pointer, 4, GL_FLOAT, false, 0, 0); // set the
         glEnableVertexAttribArray(pointer);
 
         glBindVertexArray(0); // unbind
@@ -55,7 +53,7 @@ public class VertexObjects {
         FloatBuffer vector3fBuffer = BufferUtils.createFloatBuffer(vector3fArray.length); // make float buffer to add our values into
         vector3fBuffer.put(vector3fArray).flip(); // flip it cuz idk
         glBufferData(GL_ARRAY_BUFFER, vector3fBuffer, GL_STATIC_DRAW); // input the data
-        glVertexAttribPointer(pointer, 3, GL_FLOAT, false, 0, 0); // set the
+        glVertexAttribPointer(pointer, 4, GL_FLOAT, false, 0, 0); // set the
         glEnableVertexAttribArray(pointer);
 
         glBindVertexArray(0); // unbind

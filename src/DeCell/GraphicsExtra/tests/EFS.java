@@ -1,5 +1,6 @@
 package DeCell.GraphicsExtra.tests;
 
+import DeCell.GraphicsExtra.Statics;
 import DeCell.GraphicsExtra.tests.MGL.MGLTests;
 import cmu.plugins.renderers.ImplosionParticleRenderer;
 import cmu.plugins.renderers.PaintMaskRenderer;
@@ -10,8 +11,12 @@ import com.fs.starfarer.api.input.InputEventAPI;
 import java.util.List;
 
 public class EFS extends BaseEveryFrameCombatPlugin {
+    @Override
+    public void advance(float amount, List<InputEventAPI> events) {
+        Statics.t += amount;
+    }
 
-
+    @Override
     public void processInputPreCoreControls(float amount, List<InputEventAPI> events) {
         for (InputEventAPI event : events) {
             if (event.isKeyboardEvent() && event.getEventChar() == 'b') {

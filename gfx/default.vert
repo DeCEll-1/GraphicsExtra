@@ -1,11 +1,13 @@
-#version 110
+#version 330 core
+layout(location = 0) in vec2 aPos;
+layout(location = 1) in vec2 aTexPos;
 
-attribute vec2 texCoord; // Assuming you have texture coordinates as an attribute
+uniform mat4 modelMatrix;
+uniform mat4 viewMultMatrix;
+
+out vec2 texCoord;
 
 void main() {
-    // THANK YOU https://youtu.be/zr7k7kaokSk?t=1193 İ LOVE YOU
-    gl_Position = ftransform();
-    
-    // Pass texture coordinates to fragment shader
-    gl_TexCoord[0] = vec4(texCoord, 0.0, 1.0);
+    gl_Position = modelMatrix * viewMultMatrix * vec4(aPos, 1., 1.);
+    texCoord = aTexPos;
 }

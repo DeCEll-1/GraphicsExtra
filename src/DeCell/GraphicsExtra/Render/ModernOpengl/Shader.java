@@ -1,4 +1,4 @@
-package DeCell.GraphicsExtra.Render;
+package DeCell.GraphicsExtra.Render.ModernOpengl;
 
 import DeCell.GraphicsExtra.Helpers.Logger;
 import com.fs.starfarer.api.Global;

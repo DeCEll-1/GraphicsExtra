@@ -2,10 +2,13 @@ package DeCell.GraphicsExtra.tests.MGL;
 
 import DeCell.GraphicsExtra.Helpers.Helper;
 import DeCell.GraphicsExtra.Render.ModernOpengl.MGLManager;
+import DeCell.GraphicsExtra.Render.ModernOpengl.ScaleSetting;
 import DeCell.GraphicsExtra.Render.RenderMisc;
+import DeCell.GraphicsExtra.Statics;
 import cmu.gui.CMUKitUI;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.*;
+import com.fs.starfarer.api.graphics.SpriteAPI;
 import org.json.JSONException;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
@@ -31,41 +34,50 @@ public class MGLTests extends BaseCombatLayeredRenderingPlugin {
         doOnce = false;
 
         ShipAPI ship = Global.getCombatEngine().getPlayerShip();
-        Vector2f center = null;
-        try {
-            center = Helper.getShipCenter(ship);
-        } catch (JSONException | IOException e) {
-            throw new RuntimeException(e);
-        }
 
-        manager.getShader().loadVertexShader("gfx/test.vert").loadFragShader("gfx/test.frag").link();
+
+        SpriteAPI tex = ship.getSpriteAPI();
+
+        manager.getShader().loadVertexShader("gfx/default.vert").loadFragShader("gfx/test.frag").link();
 
         manager.getVertexObjects().init(
-                new ArrayList<Vector3f>(
-                        Arrays.asList(
-                                new Vector3f(-100f, +100f, 1f),
-                                new Vector3f(+100f, +100f, 1f),
-                                new Vector3f(-100f, -100f, 1f),
-                                new Vector3f(+100f, -100f, 1f)
+        ).AddVertexAttribute2f(
+                0,
+                RenderMisc.WorldCoordToShaderCoord2f(
+                        new ArrayList<Vector2f>(
+                                Arrays.asList(
+                                        new Vector2f(-tex.getWidth(), +tex.getHeight()),
+                                        new Vector2f(+tex.getWidth(), +tex.getHeight()),
+                                        new Vector2f(-tex.getWidth(), -tex.getHeight()),
+                                        new Vector2f(+tex.getWidth(), -tex.getHeight())
+                                )
                         )
                 )
-        ).insertColors(
-                new ArrayList<Color>(
+        ).AddVertexAttribute2f(
+                1,
+                new ArrayList<Vector2f>(
                         Arrays.asList(
-                                Color.red,
-                                Color.green,
-                                Color.blue,
-                                Color.white
+                                new Vector2f(0f, 1f),
+                                new Vector2f(1f, 1f),
+                                new Vector2f(0f, 0f),
+                                new Vector2f(1f, 0f)
                         )
-                ),
-                1
+                )
         );
+
+        manager.getVertexObjects().size = 4;
+
+
+//        manager.SetScaleSetting(ScaleSetting.NO_SCALE);
     }
 
     @Override
     public void render(CombatEngineLayers layer, ViewportAPI viewport) {
 
+        ShipAPI ship = Global.getCombatEngine().getPlayerShip();
+        Vector2f center = null;
         try {
+            center = Helper.getShipCenter(ship);
             init(viewport);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -75,11 +87,17 @@ public class MGLTests extends BaseCombatLayeredRenderingPlugin {
 
         glPushMatrix();
 
-        ShipAPI ship = Global.getCombatEngine().getPlayerShip();
 
-        manager.translate(RenderMisc.worldVectorToScreenVector(ship.getLocation(), viewport));
+        //region transformations and such
+        manager.translate(RenderMisc.worldVectorToScreenVector(center, viewport));
 
-        manager.rotate(new Vector4f(0, 0, 1, ship.getFacing() - 90f));
+        //endregion
+
+        manager.getShader().bind();
+
+        manager.getShader().SetTexture("tex", ship.getSpriteAPI(), ship.getSpriteAPI().getTextureId());
+
+        manager.getShader().unbind();
 
         manager.render(viewport);
 
