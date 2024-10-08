@@ -21,13 +21,14 @@ import static org.lwjgl.opengl.ARBVertexArrayObject.glGenVertexArrays;
 public class VertexObjects {
     private int vertexArrayID = 0;
     // DO NOT FORGET TO CHANGE THİS TO THE AMOUNT OF VERTEXES YOU HAVE
-    public int size = 0;
+    public int size = 4;
     public VertexObjects init() {
         this.vertexArrayID = glGenVertexArrays();
         glBindVertexArray(vertexArrayID);
         glBindVertexArray(0);
         return this;
     }
+    //region add attributes
     public VertexObjects AddVertexAttribute2f(int pointer, List<Vector2f> vectors) {
         glBindVertexArray(vertexArrayID); // bind the array so were working on it
 
@@ -41,6 +42,8 @@ public class VertexObjects {
         glVertexAttribPointer(pointer, 2, GL_FLOAT, false, 0, 0); // set the
         glEnableVertexAttribArray(pointer);
 
+
+        glBindBuffer(GL_ARRAY_BUFFER, 0); // unbind buffer for compatibility
         glBindVertexArray(0); // unbind
 
         return this;
@@ -58,6 +61,7 @@ public class VertexObjects {
         glVertexAttribPointer(pointer, 3, GL_FLOAT, false, 0, 0); // set the
         glEnableVertexAttribArray(pointer);
 
+        glBindBuffer(GL_ARRAY_BUFFER, 0); // unbind buffer for compatibility
         glBindVertexArray(0); // unbind
 
         return this;
@@ -75,10 +79,13 @@ public class VertexObjects {
         glVertexAttribPointer(pointer, 4, GL_FLOAT, false, 0, 0); // set the
         glEnableVertexAttribArray(pointer);
 
+        glBindBuffer(GL_ARRAY_BUFFER, 0); // unbind buffer for compatibility
         glBindVertexArray(0); // unbind
 
         return this;
     }
+    //endregion
+    //region vector to arrays
     private float[] Vector2fToArray(List<Vector2f> vertexes) {
         float[] result = new float[vertexes.size() * 2];
 
@@ -112,6 +119,8 @@ public class VertexObjects {
 
         return result;
     }
+    //endregion
+    //region control functions
     public void bind() {
         glBindVertexArray(vertexArrayID);
     }
@@ -121,6 +130,6 @@ public class VertexObjects {
     public void dispose() { // why not
         glDeleteVertexArrays(vertexArrayID);
     }
-
+    //endregion
 
 }
