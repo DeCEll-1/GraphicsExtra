@@ -2,7 +2,6 @@
 
 uniform sampler2D sheet;
 uniform vec2 size; // = vec2(616., 356.);
-uniform vec2 nextPOTSize;
 uniform vec2 targetLoc; // = vec2(1., 123.);
 uniform vec2 targetSize; // = vec2(210., 232.);
 
@@ -28,7 +27,7 @@ void main() {
     vec2 targetLocTemp = vec2(targetLoc.x, (size.y - targetSize.y) - targetLoc.y);
     vec2 normTarLoc = targetLocTemp / size;
 
-    col.g = dot(texture(sheet, uv * normTarSize + normTarLoc).rgb, vec3(1.)); // * normTarSize + normTarLoc
-    col.a = .5;
+    col.rgba = texture(sheet, uv * normTarSize + normTarLoc).rgba; // * normTarSize + normTarLoc
+    // col.a = .5;
     FragColor = col;
 }

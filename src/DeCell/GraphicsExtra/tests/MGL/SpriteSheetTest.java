@@ -12,6 +12,7 @@ import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ViewportAPI;
 import com.fs.starfarer.api.graphics.SpriteAPI;
 import org.json.JSONException;
+import org.lazywizard.lazylib.MathUtils;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector4f;
 
@@ -100,11 +101,15 @@ public class SpriteSheetTest extends BaseCombatLayeredRenderingPlugin {
     public void render(CombatEngineLayers layer, ViewportAPI viewport) {
 
         ShipAPI ship = Global.getCombatEngine().getPlayerShip();
-        ship.getSpriteAPI().setColor(new Color(255, 0, 0, 255));
+        ship.getSpriteAPI().setColor(new Color(0, 0, 0, 0));
         SpriteAPI texture = ship.getSpriteAPI();
         Vector2f offset = null;
         try {
             offset = Helper.getTextureOffset(ship);
+            float angle = (float) Math.toRadians(ship.getFacing()-90f);
+            float x2 = (float) (offset.x * Math.cos(angle) - offset.y * Math.sin(angle));
+            float y2 = (float) (offset.x * Math.sin(angle) + offset.y * Math.cos(angle));
+            offset = new Vector2f(x2, y2);
             init(viewport);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -113,6 +118,7 @@ public class SpriteSheetTest extends BaseCombatLayeredRenderingPlugin {
         CMUKitUI.openGLForMisc(); // gl open
 
         glPushMatrix();
+
 
         //region transformations and such
         manager.translate(RenderMisc.worldVectorToScreenVector(new Vector2f(ship.getLocation().x - offset.x, ship.getLocation().y - offset.y), viewport));
