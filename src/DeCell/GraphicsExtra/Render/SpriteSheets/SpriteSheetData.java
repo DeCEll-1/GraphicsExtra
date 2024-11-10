@@ -16,22 +16,8 @@ import java.util.Objects;
 public class SpriteSheetData {
     //
     public Vector2f size = new Vector2f(64, 64);
-    public Vector2f nextPOT = new Vector2f(64, 64);
-
-    public SpriteSheetData SetShape(Vector2f shape) {
+    public SpriteSheetData SetSize(Vector2f shape) {
         this.size = shape;
-        int xPOT = 1;
-        while (xPOT < size.x)
-            xPOT *= 2;
-        int yPOT = 1;
-        while (yPOT < size.y)
-            yPOT *= 2;
-        if (xPOT > yPOT)
-            nextPOT = new Vector2f(xPOT, xPOT);
-        else if (yPOT > xPOT)
-            nextPOT = new Vector2f(yPOT, yPOT);
-        else
-            nextPOT = new Vector2f(xPOT, yPOT);
         return this;
     }
 
@@ -61,7 +47,6 @@ public class SpriteSheetData {
         }
 
         shader.SetVector2f("size", this.size)
-                .SetVector2f("nextPOTSize", nextPOT)
                 .SetVector2f("targetLoc", sprite.loc)
                 .SetVector2f("targetSize", sprite.size)
                 .SetTexture("sheet", tex, tex.getTextureId());
@@ -98,7 +83,7 @@ public class SpriteSheetData {
 //        JSONObject shape = jsonObject.getJSONObject("meta").getJSONObject("size");
 //        data.SetShape(new Vector2f(shape.getInt("w"), shape.getInt("h")));
 
-        data.SetShape(new Vector2f(tex.getWidth(), tex.getHeight()));
+        data.SetSize(new Vector2f(tex.getWidth(), tex.getHeight()));
 
         return data;
 
