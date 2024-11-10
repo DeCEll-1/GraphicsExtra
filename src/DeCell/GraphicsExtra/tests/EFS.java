@@ -1,9 +1,7 @@
 package DeCell.GraphicsExtra.tests;
 
 import DeCell.GraphicsExtra.Statics;
-import DeCell.GraphicsExtra.tests.MGL.MGLTests;
-import cmu.plugins.renderers.ImplosionParticleRenderer;
-import cmu.plugins.renderers.PaintMaskRenderer;
+import DeCell.GraphicsExtra.tests.MGL.SpriteSheetTest;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.BaseEveryFrameCombatPlugin;
 import com.fs.starfarer.api.input.InputEventAPI;
@@ -13,6 +11,7 @@ import java.util.List;
 public class EFS extends BaseEveryFrameCombatPlugin {
     @Override
     public void advance(float amount, List<InputEventAPI> events) {
+        if (Global.getCombatEngine().isPaused()) return;
         Statics.t += amount;
     }
 
@@ -21,7 +20,11 @@ public class EFS extends BaseEveryFrameCombatPlugin {
         for (InputEventAPI event : events) {
             if (event.isKeyboardEvent() && event.getEventChar() == 'b') {
 
-                MGLTests plugin = new MGLTests();
+                if (!Global.getSettings().getBoolean("GE_DebugMode")){
+                    return;
+                }
+
+                SpriteSheetTest plugin = new SpriteSheetTest();
 //                ImplosionParticleRenderer plugin = new ImplosionParticleRenderer();
 
                 plugin.init(null);

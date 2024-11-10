@@ -1,0 +1,115 @@
+{
+	"frames": {
+		"gremlin.png": {
+			"frame": {
+				"x": 1,
+				"y": 1,
+				"w": 92,
+				"h": 92
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 92,
+				"h": 92
+			},
+			"sourceSize": {
+				"w": 92,
+				"h": 92
+			}
+		},
+		"phase_assault_ff.png": {
+			"frame": {
+				"x": 95,
+				"y": 1,
+				"w": 80,
+				"h": 80
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 80,
+				"h": 80
+			},
+			"sourceSize": {
+				"w": 80,
+				"h": 80
+			}
+		},
+		"phase_strike_ff.png": {
+			"frame": {
+				"x": 177,
+				"y": 1,
+				"w": 72,
+				"h": 120
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 72,
+				"h": 120
+			},
+			"sourceSize": {
+				"w": 72,
+				"h": 120
+			}
+		},
+		"revenant.png": {
+			"frame": {
+				"x": 1,
+				"y": 123,
+				"w": 210,
+				"h": 232
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 210,
+				"h": 232
+			},
+			"sourceSize": {
+				"w": 210,
+				"h": 232
+			}
+		},
+		"zigguraut.png": {
+			"frame": {
+				"x": 251,
+				"y": 1,
+				"w": 364,
+				"h": 322
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 364,
+				"h": 322
+			},
+			"sourceSize": {
+				"w": 364,
+				"h": 322
+			}
+		}
+	},
+	"meta": {
+		"app": "http://www.codeandweb.com/texturepacker",
+		"version": "1.0",
+		"image": "spritesheet.png",
+		"format": "RGBA8888",
+		"size": {
+			"w": 616,
+			"h": 356
+		},
+		"scale": "1"
+	}
+}

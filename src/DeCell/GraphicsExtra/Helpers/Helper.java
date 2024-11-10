@@ -81,9 +81,16 @@ public class Helper {
 
     public static Vector2f getShipCenter(ShipAPI ship) throws JSONException, IOException {
         Vector2f center = Helper.getShipOrigin(ship);
+
         center.set(center.x - ship.getSpriteAPI().getWidth() / 2f, center.y - ship.getSpriteAPI().getHeight() / 2f);
         center.set(ship.getLocation().x + center.x, ship.getLocation().y + center.y);
         return center;
+    }
+
+    public static Vector2f getTextureOffset(ShipAPI ship) throws JSONException, IOException {
+
+        Vector2f spriteCenter = new Vector2f(ship.getSpriteAPI().getWidth() / 2f, ship.getSpriteAPI().getHeight() / 2f);
+        return new Vector2f(Helper.getShipOrigin(ship).x - spriteCenter.x, Helper.getShipOrigin(ship).y - spriteCenter.y);
     }
 
 }

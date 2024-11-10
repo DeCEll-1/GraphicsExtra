@@ -1,6 +1,6 @@
 #version 330 core
 
-uniform float t;
+uniform float iTime;
 // texture becomes power of 2
 // to solve, you take the next power of 2 you can get depending on the image size
 // (80, 120) / (128, 128)
@@ -23,7 +23,7 @@ void main() {
     vec4 color = vec4(1.);
 
     // get the cell
-    vec4 cell = vec4(voronoi(coord * level, t), 1.);
+    vec4 cell = vec4(voronoi(coord * level, iTime), 1.);
 
     // cells n.0
     vec2 i_coord = floor(coord * level);

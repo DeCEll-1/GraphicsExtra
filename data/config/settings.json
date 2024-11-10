@@ -1,5 +1,6 @@
 {
 	"GE_LoggerEnabled": true,
+	"GE_DebugMode": true,
 	"plugins": {
 		"GE_TestEFS": "DeCell.GraphicsExtra.tests.EFS"
 	}

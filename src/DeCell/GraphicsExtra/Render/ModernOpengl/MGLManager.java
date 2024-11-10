@@ -109,8 +109,8 @@ public class MGLManager {
         //endregion
 
         //region uniform settings
-        shader.SetVector2f("screenShape" , new Vector2f(width, height));
-        shader.SetFloat("t", Statics.t);
+        shader.SetVector2f("iResolution" , Statics.ScreenShape);
+        shader.SetFloat("iTime", Statics.t);
         shader.SetMatrix4f("modelMatrix", modelMatrix);
         shader.SetMatrix4f("viewMultMatrix", shaderViewMultMatrix);
         //endregion
