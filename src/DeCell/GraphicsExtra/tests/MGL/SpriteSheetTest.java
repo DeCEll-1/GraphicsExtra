@@ -26,7 +26,7 @@ import static org.lwjgl.opengl.GL11.glPopMatrix;
 import static org.lwjgl.opengl.GL11.glPushMatrix;
 
 public class SpriteSheetTest extends BaseCombatLayeredRenderingPlugin {
-    private CombatEngineLayers CURRENT_LAYER = CombatEngineLayers.JUST_BELOW_WIDGETS;
+    private CombatEngineLayers CURRENT_LAYER = CombatEngineLayers.UNDER_SHIPS_LAYER;
     private boolean doOnce = true;
     private MGLManager manager = new MGLManager();
     private String textureName = "";
